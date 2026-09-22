@@ -1,8 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/game-tangkap-bug",
-      "destination": "/game-tangkap-bug.html"
+        "source": "/game-tangkap-bug",
+        "destination": "/game-tangkap-bug.html"
+    },
+    {
+        "source": "/game-navigasi-robot",
+        "destination": "/game-navigasi-robot.html"
     }
   ]
 }
