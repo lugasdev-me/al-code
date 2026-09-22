@@ -49,32 +49,66 @@
 <body class="text-slate-900 antialiased">
 
   <!-- NAVBAR -->
-  <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-      <a href="#home" class="flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white">
-          AL
-        </div>
-        <div>
-          <div class="font-black tracking-tight">AL-Code</div>
-          <div class="text-[10px] font-semibold uppercase tracking-[.22em] text-slate-500">Algorithm & Logic Coding Lab</div>
-        </div>
+  <header class="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+
+    <!-- Logo -->
+    <a href="/" class="text-xl font-black text-slate-950">
+      AL-Code
+    </a>
+
+    <!-- Desktop -->
+    <nav class="hidden items-center gap-7 text-sm font-semibold text-slate-600 md:flex">
+      <a href="#cara-kerja" class="hover:text-slate-950">Cara Kerja</a>
+      <a href="#kurikulum" class="hover:text-slate-950">Kurikulum</a>
+      <a href="#project" class="hover:text-slate-950">Project</a>
+      <a href="#program" class="hover:text-slate-950">Program</a>
+      <a href="#faq" class="hover:text-slate-950">FAQ</a>
+      <a href="/game-tangkap-bug" class="hover:text-slate-950">Game</a>
+    </nav>
+
+    <!-- Mobile button -->
+    <button
+      id="mobileMenuButton"
+      class="rounded-xl border border-slate-200 p-2 md:hidden"
+      aria-label="Buka menu"
+    >
+      ☰
+    </button>
+
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="hidden border-t bg-white md:hidden">
+    <nav class="flex flex-col px-4 py-4 text-sm font-semibold text-slate-700">
+
+      <a href="#cara-kerja" class="rounded-xl px-4 py-3 hover:bg-slate-50">
+        Cara Kerja
       </a>
 
-      <nav class="hidden items-center gap-7 text-sm font-semibold text-slate-600 md:flex">
-        <a class="hover:text-slate-950" href="#cara-kerja">Cara Kerja</a>
-        <a class="hover:text-slate-950" href="#kurikulum">Kurikulum</a>
-        <a class="hover:text-slate-950" href="#project">Project</a>
-        <a class="hover:text-slate-950" href="#program">Program</a>
-        <a class="hover:text-slate-950" href="#faq">FAQ</a>
-        <a class="hover:text-slate-950" href="/game-tangkap-bug">Game</a>
-      </nav>
-
-      <a href="#daftar" class="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-slate-800">
-        Coba AL-Code
+      <a href="#kurikulum" class="rounded-xl px-4 py-3 hover:bg-slate-50">
+        Kurikulum
       </a>
-    </div>
-  </header>
+
+      <a href="#project" class="rounded-xl px-4 py-3 hover:bg-slate-50">
+        Project
+      </a>
+
+      <a href="#program" class="rounded-xl px-4 py-3 hover:bg-slate-50">
+        Program
+      </a>
+
+      <a href="#faq" class="rounded-xl px-4 py-3 hover:bg-slate-50">
+        FAQ
+      </a>
+
+      <a href="/game/tangkap-bug" class="rounded-xl px-4 py-3 hover:bg-slate-50">
+        🎮 Game
+      </a>
+
+    </nav>
+  </div>
+</header>
 
   <!-- HERO -->
   <main id="home">
@@ -538,7 +572,7 @@
             <p class="mt-5 max-w-2xl text-lg leading-8 text-indigo-100">Mulai dengan Trial Class, kenali cara belajar AL-Code, lalu lihat project pertama mereka berkembang.</p>
           </div>
           <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
-            <a href="https://wa.me/6281234567890?text=Halo%20AL-Code%2C%20saya%20ingin%20info%20Trial%20Class." class="rounded-2xl bg-white px-7 py-4 text-center text-sm font-black text-slate-950 transition hover:bg-slate-100">Chat WhatsApp →</a>
+            <a href="https://wa.me/6288211925005?text=Halo%20AL-Code%2C%20saya%20ingin%20info%20Trial%20Class." class="rounded-2xl bg-white px-7 py-4 text-center text-sm font-black text-slate-950 transition hover:bg-slate-100">Chat WhatsApp →</a>
             <a href="#home" class="rounded-2xl border border-white/30 px-7 py-4 text-center text-sm font-black text-white transition hover:bg-white/10">Kembali ke atas</a>
           </div>
         </div>
@@ -560,6 +594,22 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+    const button = document.getElementById("mobileMenuButton");
+    const menu = document.getElementById("mobileMenu");
+
+    button.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+
+    // Tutup menu setelah klik link
+    menu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        menu.classList.add("hidden");
+      });
+    });
   </script>
 </body>
 </html>
