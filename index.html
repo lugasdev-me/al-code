@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AL-Code — Think. Build. Debug. Present.</title>
+  <meta name="description" content="AL-Code adalah Kids Tech & Coding Lab untuk siswa SD kelas 5–6 dan SMP kelas 7–9. Belajar logic, coding, web, JavaScript, networking, dan membuat project nyata." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace']
+          },
+          boxShadow: {
+            soft: '0 20px 60px rgba(15, 23, 42, .10)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: #f8fafc; }
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(15,23,42,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,23,42,.045) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .glow { box-shadow: 0 0 0 1px rgba(15,23,42,.06), 0 25px 80px rgba(15,23,42,.12); }
+    .terminal-dot { width: 9px; height: 9px; border-radius: 999px; display:inline-block; }
+    .code-line { counter-increment: line; }
+    .code-line:before {
+      content: counter(line);
+      display:inline-block;
+      width:2rem;
+      color:#64748b;
+      text-align:right;
+      margin-right:1rem;
+      user-select:none;
+    }
+    .code-block { counter-reset: line; }
+  </style>
+</head>
+
+<body class="text-slate-900 antialiased">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+      <a href="#home" class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white">
+          AL
+        </div>
+        <div>
+          <div class="font-black tracking-tight">AL-Code</div>
+          <div class="text-[10px] font-semibold uppercase tracking-[.22em] text-slate-500">Algorithm & Logic Coding Lab</div>
+        </div>
+      </a>
+
+      <nav class="hidden items-center gap-7 text-sm font-semibold text-slate-600 md:flex">
+        <a class="hover:text-slate-950" href="#cara-kerja">Cara Kerja</a>
+        <a class="hover:text-slate-950" href="#kurikulum">Kurikulum</a>
+        <a class="hover:text-slate-950" href="#project">Project</a>
+        <a class="hover:text-slate-950" href="#program">Program</a>
+        <a class="hover:text-slate-950" href="#faq">FAQ</a>
+      </nav>
+
+      <a href="#daftar" class="rounded-full bg-slate-950 px-5 py-2.5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-slate-800">
+        Coba AL-Code
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="home">
+    <section class="relative overflow-hidden border-b border-slate-200 bg-white">
+      <div class="absolute inset-0 grid-bg"></div>
+      <div class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-cyan-200/40 blur-3xl"></div>
+      <div class="absolute -left-32 bottom-0 h-96 w-96 rounded-full bg-indigo-200/40 blur-3xl"></div>
+
+      <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-28">
+        <div>
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 shadow-sm">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            Kids Tech & Coding Lab
+          </div>
+
+          <h1 class="max-w-3xl text-5xl font-black leading-[.98] tracking-[-.045em] text-slate-950 sm:text-6xl lg:text-7xl">
+            Bukan cuma belajar coding.
+            <span class="text-indigo-600">Belajar berpikir seperti problem solver.</span>
+          </h1>
+
+          <p class="mt-7 max-w-2xl text-lg leading-8 text-slate-600">
+            AL-Code membantu siswa SD kelas 5–6 dan SMP kelas 7–9 belajar logic, coding,
+            web, JavaScript, networking, teamwork, dan presentasi melalui project nyata.
+          </p>
+
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href="#daftar" class="rounded-2xl bg-slate-950 px-6 py-4 text-center text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-1">
+              Daftar Trial Class →
+            </a>
+            <a href="#cara-kerja" class="rounded-2xl border border-slate-300 bg-white px-6 py-4 text-center text-sm font-extrabold text-slate-800 transition hover:border-slate-500">
+              Lihat Cara Belajar
+            </a>
+          </div>
+
+          <div class="mt-9 grid max-w-xl grid-cols-3 gap-4 border-t border-slate-200 pt-7">
+            <div>
+              <div class="text-2xl font-black">5</div>
+              <div class="mt-1 text-xs font-semibold text-slate-500">siswa / group</div>
+            </div>
+            <div>
+              <div class="text-2xl font-black">8×</div>
+              <div class="mt-1 text-xs font-semibold text-slate-500">pertemuan / bulan</div>
+            </div>
+            <div>
+              <div class="text-2xl font-black">1</div>
+              <div class="mt-1 text-xs font-semibold text-slate-500">project / bulan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero visual -->
+        <div class="relative">
+          <div class="rounded-3xl border border-slate-200 bg-white p-3 shadow-soft">
+            <div class="overflow-hidden rounded-2xl bg-slate-950">
+              <div class="flex items-center gap-2 border-b border-white/10 px-5 py-4">
+                <span class="terminal-dot bg-red-400"></span>
+                <span class="terminal-dot bg-yellow-400"></span>
+                <span class="terminal-dot bg-emerald-400"></span>
+                <span class="ml-3 font-mono text-xs text-slate-500">al-code/project.js</span>
+              </div>
+              <div class="code-block overflow-x-auto p-6 font-mono text-sm leading-8 text-slate-200">
+                <div class="code-line"><span class="text-purple-300">function</span> <span class="text-cyan-300">solve</span>(problem) {</div>
+                <div class="code-line pl-4"><span class="text-purple-300">let</span> idea = <span class="text-amber-300">"think"</span>;</div>
+                <div class="code-line pl-4"><span class="text-purple-300">let</span> project = <span class="text-amber-300">"build"</span>;</div>
+                <div class="code-line pl-4"><span class="text-purple-300">while</span> (project.hasBug) {</div>
+                <div class="code-line pl-8">debug(project);</div>
+                <div class="code-line pl-4">}</div>
+                <div class="code-line pl-4">present(project);</div>
+                <div class="code-line">}</div>
+                <div class="mt-5 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-emerald-300">
+                  ✓ Project ready for Demo Day
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute -bottom-7 -left-7 hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-soft sm:block">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Core Loop</div>
+            <div class="mt-2 flex items-center gap-2 text-sm font-black">
+              <span>Think</span><span class="text-slate-300">→</span><span>Build</span><span class="text-slate-300">→</span><span>Debug</span><span class="text-slate-300">→</span><span>Present</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST / POSITIONING -->
+    <section class="border-b border-slate-200 bg-slate-950 text-white">
+      <div class="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:grid-cols-3 lg:px-8">
+        <div>
+          <div class="text-sm font-bold text-cyan-300">01 / LOGIC</div>
+          <p class="mt-2 font-semibold leading-6 text-slate-300">Anak belajar memecah masalah sebelum menyentuh kode.</p>
+        </div>
+        <div>
+          <div class="text-sm font-bold text-cyan-300">02 / BUILD</div>
+          <p class="mt-2 font-semibold leading-6 text-slate-300">Setiap bulan ada project yang benar-benar dibuat dan diuji.</p>
+        </div>
+        <div>
+          <div class="text-sm font-bold text-cyan-300">03 / PRESENT</div>
+          <p class="mt-2 font-semibold leading-6 text-slate-300">Anak belajar menjelaskan apa yang dibuat dan bagaimana cara kerjanya.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARA KERJA -->
+    <section id="cara-kerja" class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="max-w-2xl">
+        <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-600">Cara AL-Code bekerja</div>
+        <h2 class="mt-3 text-4xl font-black tracking-tight sm:text-5xl">90 menit yang dirancang untuk membuat anak aktif.</h2>
+        <p class="mt-5 text-lg leading-8 text-slate-600">
+          Trainer bukan satu-satunya orang yang bekerja. Anak berpikir, mencoba, berdiskusi,
+          menemukan error, memperbaiki, lalu menjelaskan hasilnya.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+          <div class="text-sm font-black text-indigo-600">00–10 MIN</div>
+          <h3 class="mt-3 text-xl font-black">Tech Warm-up</h3>
+          <p class="mt-3 leading-7 text-slate-600">Pertanyaan logic dan masalah sehari-hari untuk melatih rasa ingin tahu.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+          <div class="text-sm font-black text-indigo-600">10–25 MIN</div>
+          <h3 class="mt-3 text-xl font-black">Concept</h3>
+          <p class="mt-3 leading-7 text-slate-600">Trainer mengenalkan satu konsep dengan contoh nyata sebelum masuk coding.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+          <div class="text-sm font-black text-indigo-600">25–55 MIN</div>
+          <h3 class="mt-3 text-xl font-black">Coding Lab</h3>
+          <p class="mt-3 leading-7 text-slate-600">Anak mengerjakan challenge, bukan sekadar menyalin tutorial.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+          <div class="text-sm font-black text-indigo-600">55–70 MIN</div>
+          <h3 class="mt-3 text-xl font-black">Debugging</h3>
+          <p class="mt-3 leading-7 text-slate-600">Error diperlakukan sebagai informasi. Anak belajar mencari penyebab dan menguji solusi.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+          <div class="text-sm font-black text-indigo-600">70–82 MIN</div>
+          <h3 class="mt-3 text-xl font-black">Project Sprint</h3>
+          <p class="mt-3 leading-7 text-slate-600">Tim mengembangkan project bulanan dan menambahkan improvement.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+          <div class="text-sm font-black text-indigo-600">82–90 MIN</div>
+          <h3 class="mt-3 text-xl font-black">Demo + Reflection</h3>
+          <p class="mt-3 leading-7 text-slate-600">Anak menunjukkan hasil dan menjelaskan apa yang berhasil, gagal, dan ingin dikembangkan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="border-y border-slate-200 bg-white">
+      <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 lg:grid-cols-2 lg:px-8">
+        <div>
+          <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-600">Learning Philosophy</div>
+          <h2 class="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Error bukan kegagalan. Error adalah petunjuk.</h2>
+          <p class="mt-6 text-lg leading-8 text-slate-600">
+            AL-Code sengaja memberi ruang untuk mencoba, salah, menguji, dan memperbaiki.
+            Anak tidak hanya mengejar jawaban benar, tetapi memahami proses menemukan solusi.
+          </p>
+
+          <div class="mt-8 space-y-4">
+            <div class="flex gap-4">
+              <div class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-950 text-xs font-black text-white">01</div>
+              <div><b>Think</b><p class="text-slate-600">Pahami masalah sebelum menulis kode.</p></div>
+            </div>
+            <div class="flex gap-4">
+              <div class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-950 text-xs font-black text-white">02</div>
+              <div><b>Build</b><p class="text-slate-600">Ubah ide menjadi sesuatu yang bisa dicoba.</p></div>
+            </div>
+            <div class="flex gap-4">
+              <div class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-950 text-xs font-black text-white">03</div>
+              <div><b>Debug</b><p class="text-slate-600">Cari penyebab, bukan sekadar meminta jawaban.</p></div>
+            </div>
+            <div class="flex gap-4">
+              <div class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-950 text-xs font-black text-white">04</div>
+              <div><b>Present</b><p class="text-slate-600">Jelaskan hasil dengan bahasa sendiri.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-3xl bg-slate-950 p-8 text-white shadow-soft">
+          <div class="flex items-center justify-between">
+            <div class="font-mono text-sm text-slate-400">student-thinking.md</div>
+            <span class="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">LIVE</span>
+          </div>
+          <div class="mt-8 space-y-6 font-mono text-sm">
+            <div>
+              <div class="text-slate-500"># Student</div>
+              <div class="mt-1 text-cyan-300">"Kak, ini error."</div>
+            </div>
+            <div>
+              <div class="text-slate-500"># Trainer</div>
+              <div class="mt-1 text-amber-300">"Menurut kamu, bagian mana yang perlu kita cek?"</div>
+            </div>
+            <div>
+              <div class="text-slate-500"># Student</div>
+              <div class="mt-1 text-cyan-300">"Kayaknya condition-nya."</div>
+            </div>
+            <div>
+              <div class="text-slate-500"># Trainer</div>
+              <div class="mt-1 text-amber-300">"Kenapa kamu berpikir begitu? Coba buktikan."</div>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <span class="text-emerald-300">✓</span> Anak belajar melakukan diagnosis, bukan menunggu jawaban.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROLES -->
+    <section class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
+        <div>
+          <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-600">Small group learning</div>
+          <h2 class="mt-3 text-4xl font-black tracking-tight">5 komputer. 5 anak. 1 tim.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">
+            Keterbatasan perangkat justru dipakai untuk melatih teamwork. Setiap anak memiliki peran dan peran tersebut berganti secara berkala.
+          </p>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl border border-slate-200 bg-white p-5"><b>Driver</b><p class="mt-2 text-sm text-slate-600">Mengoperasikan keyboard dan coding.</p></div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5"><b>Navigator</b><p class="mt-2 text-sm text-slate-600">Membaca instruksi dan memberi arahan.</p></div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5"><b>Debugger</b><p class="mt-2 text-sm text-slate-600">Mencari kemungkinan penyebab error.</p></div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5"><b>Tester</b><p class="mt-2 text-sm text-slate-600">Menguji apakah solusi bekerja.</p></div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 sm:col-span-2"><b>Presenter / Documenter</b><p class="mt-2 text-sm text-slate-600">Mencatat proses dan menyiapkan presentasi project.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KURIKULUM -->
+    <section id="kurikulum" class="border-y border-slate-200 bg-slate-50">
+      <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <div class="max-w-3xl">
+          <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-600">Roadmap</div>
+          <h2 class="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Kurikulum bergerak dari logic ke project.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">
+            Materi disusun bertahap agar anak tidak sekadar hafal syntax. Setiap topik terhubung dengan sesuatu yang bisa dibuat.
+          </p>
+        </div>
+
+        <div class="mt-12 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+          <div class="grid grid-cols-[.6fr_1fr_1.4fr] border-b border-slate-200 bg-slate-950 px-5 py-4 text-xs font-black uppercase tracking-wider text-white sm:grid-cols-[.6fr_1fr_1.6fr]">
+            <div>Bulan</div><div>Fokus</div><div>Project</div>
+          </div>
+          <div class="divide-y divide-slate-200">
+            <div class="grid grid-cols-[.6fr_1fr_1.4fr] gap-3 px-5 py-5 sm:grid-cols-[.6fr_1fr_1.6fr]"><b>01</b><div>Computational Thinking</div><div class="font-semibold">Interactive Website</div></div>
+            <div class="grid grid-cols-[.6fr_1fr_1.4fr] gap-3 px-5 py-5 sm:grid-cols-[.6fr_1fr_1.6fr]"><b>02</b><div>JavaScript & Logic</div><div class="font-semibold">Mini Game</div></div>
+            <div class="grid grid-cols-[.6fr_1fr_1.4fr] gap-3 px-5 py-5 sm:grid-cols-[.6fr_1fr_1.6fr]"><b>03</b><div>Web Development</div><div class="font-semibold">Personal Website</div></div>
+            <div class="grid grid-cols-[.6fr_1fr_1.4fr] gap-3 px-5 py-5 sm:grid-cols-[.6fr_1fr_1.6fr]"><b>04</b><div>Internet & Networking</div><div class="font-semibold">Mini Network Lab</div></div>
+            <div class="grid grid-cols-[.6fr_1fr_1.4fr] gap-3 px-5 py-5 sm:grid-cols-[.6fr_1fr_1.6fr]"><b>05</b><div>Automation & Logic</div><div class="font-semibold">Smart System Simulation</div></div>
+            <div class="grid grid-cols-[.6fr_1fr_1.4fr] gap-3 px-5 py-5 sm:grid-cols-[.6fr_1fr_1.6fr]"><b>06</b><div>Final Project</div><div class="font-semibold">Tech Presentation</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECT -->
+    <section id="project" class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="text-center">
+        <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-600">Project-based learning</div>
+        <h2 class="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Setiap bulan ada sesuatu yang bisa ditunjukkan.</h2>
+        <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">Bukan hanya selesai mengerjakan worksheet. Anak membangun, menguji, lalu mempresentasikan karya.</p>
+      </div>
+
+      <div class="mt-12 grid gap-5 md:grid-cols-3">
+        <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
+          <div class="h-44 bg-slate-950 p-6 font-mono text-xs text-slate-300">
+            <div class="text-indigo-300">&lt;website&gt;</div>
+            <div class="mt-3 pl-4 text-cyan-300">My Profile</div>
+            <div class="pl-4 text-amber-300">My Skills</div>
+            <div class="pl-4 text-emerald-300">My Project</div>
+            <div class="text-indigo-300">&lt;/website&gt;</div>
+          </div>
+          <div class="p-6"><div class="text-xs font-black uppercase tracking-wider text-indigo-600">Project 01</div><h3 class="mt-2 text-xl font-black">My First Website</h3><p class="mt-3 text-slate-600">HTML, CSS, layout, content, dan presentasi.</p></div>
+        </article>
+
+        <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
+          <div class="h-44 bg-slate-950 p-6 font-mono text-xs text-slate-300">
+            <div class="text-purple-300">if</div>
+            <div class="pl-4 text-slate-300">(answer === correct) {</div>
+            <div class="pl-8 text-emerald-300">score++;</div>
+            <div class="pl-4 text-slate-300">}</div>
+            <div class="mt-3 rounded-lg bg-white/5 p-3 text-cyan-300">Score: 80</div>
+          </div>
+          <div class="p-6"><div class="text-xs font-black uppercase tracking-wider text-indigo-600">Project 02</div><h3 class="mt-2 text-xl font-black">Mini Quiz Game</h3><p class="mt-3 text-slate-600">JavaScript, condition, score, event, dan testing.</p></div>
+        </article>
+
+        <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
+          <div class="h-44 bg-slate-950 p-6">
+            <div class="flex items-center justify-center gap-5 pt-5">
+              <div class="rounded-xl border border-cyan-400/40 bg-cyan-400/10 px-4 py-3 font-mono text-xs text-cyan-300">PC A</div>
+              <div class="h-px w-12 bg-slate-600"></div>
+              <div class="rounded-xl border border-amber-400/40 bg-amber-400/10 px-4 py-3 font-mono text-xs text-amber-300">ROUTER</div>
+              <div class="h-px w-12 bg-slate-600"></div>
+              <div class="rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 font-mono text-xs text-emerald-300">PC B</div>
+            </div>
+          </div>
+          <div class="p-6"><div class="text-xs font-black uppercase tracking-wider text-indigo-600">Project 03</div><h3 class="mt-2 text-xl font-black">Mini Network Lab</h3><p class="mt-3 text-slate-600">IP, client-server, router, troubleshooting, dan logic jaringan.</p></div>
+        </article>
+      </div>
+
+      <div class="mt-10 rounded-3xl bg-indigo-600 p-8 text-white sm:p-10">
+        <div class="grid items-center gap-8 md:grid-cols-[1fr_auto]">
+          <div>
+            <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-200">Every month</div>
+            <h3 class="mt-2 text-3xl font-black tracking-tight">AL-Code Project Day</h3>
+            <p class="mt-3 max-w-2xl leading-7 text-indigo-100">Siswa menunjukkan project di depan trainer, teman, dan orang tua. Mereka menjelaskan masalah, solusi, cara kerja, dan improvement berikutnya.</p>
+          </div>
+          <div class="rounded-2xl bg-white px-6 py-5 text-center text-slate-950">
+            <div class="text-3xl font-black">1</div>
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-500">project / month</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAM / PRICE -->
+    <section id="program" class="border-y border-slate-200 bg-white">
+      <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <div class="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
+          <div>
+            <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-600">Program</div>
+            <h2 class="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Small group. Focused learning.</h2>
+            <p class="mt-5 text-lg leading-8 text-slate-600">Satu group maksimal 5 siswa agar trainer dapat mengamati proses berpikir setiap anak.</p>
+          </div>
+
+          <div class="rounded-3xl border-2 border-slate-950 bg-slate-950 p-8 text-white shadow-soft">
+            <div class="flex items-start justify-between gap-5">
+              <div>
+                <div class="text-sm font-black uppercase tracking-[.2em] text-cyan-300">AL-Code Regular</div>
+                <h3 class="mt-3 text-3xl font-black">Rp350.000<span class="text-base font-semibold text-slate-400"> / bulan</span></h3>
+              </div>
+              <div class="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">8× / month</div>
+            </div>
+
+            <ul class="mt-8 grid gap-4 text-sm text-slate-200 sm:grid-cols-2">
+              <li>✓ 8 pertemuan / bulan</li>
+              <li>✓ 90 menit / pertemuan</li>
+              <li>✓ Maks. 5 siswa / group</li>
+              <li>✓ Komputer tersedia</li>
+              <li>✓ Modul & challenge</li>
+              <li>✓ Project bulanan</li>
+              <li>✓ Assessment</li>
+              <li>✓ Progress report</li>
+            </ul>
+
+            <a href="#daftar" class="mt-8 block rounded-2xl bg-white px-6 py-4 text-center text-sm font-black text-slate-950 transition hover:bg-slate-100">
+              Ambil Slot Trial →
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-12 grid gap-5 md:grid-cols-3">
+          <div class="rounded-2xl border border-slate-200 p-6">
+            <div class="text-sm font-black text-slate-400">CAPACITY</div>
+            <div class="mt-2 text-3xl font-black">25 siswa</div>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Maksimal 5 group × 5 siswa.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 p-6">
+            <div class="text-sm font-black text-slate-400">SCHEDULE</div>
+            <div class="mt-2 text-3xl font-black">Sore</div>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Slot contoh: 15.30–17.00 dan 17.15–18.45.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 p-6">
+            <div class="text-sm font-black text-slate-400">FACILITY</div>
+            <div class="mt-2 text-3xl font-black">5 PC + Lab</div>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Ruangan belajar kecil dengan papan tulis dan komputer.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASSESSMENT -->
+    <section class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+      <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-600">Progress, not just scores</div>
+          <h2 class="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Yang diukur bukan hanya “bisa coding atau tidak”.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">Progress report melihat kemampuan yang benar-benar dibutuhkan untuk menjadi problem solver.</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="rounded-2xl border border-slate-200 bg-white p-5">
+            <div class="flex justify-between"><b>Logic</b><span class="font-black">25%</span></div>
+            <div class="mt-3 h-2 rounded-full bg-slate-100"><div class="h-2 w-3/4 rounded-full bg-indigo-600"></div></div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5">
+            <div class="flex justify-between"><b>Coding</b><span class="font-black">25%</span></div>
+            <div class="mt-3 h-2 rounded-full bg-slate-100"><div class="h-2 w-3/4 rounded-full bg-indigo-600"></div></div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5">
+            <div class="flex justify-between"><b>Problem Solving</b><span class="font-black">20%</span></div>
+            <div class="mt-3 h-2 rounded-full bg-slate-100"><div class="h-2 w-2/3 rounded-full bg-indigo-600"></div></div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5">
+            <div class="flex justify-between"><b>Teamwork</b><span class="font-black">15%</span></div>
+            <div class="mt-3 h-2 rounded-full bg-slate-100"><div class="h-2 w-1/2 rounded-full bg-indigo-600"></div></div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5">
+            <div class="flex justify-between"><b>Presentation</b><span class="font-black">15%</span></div>
+            <div class="mt-3 h-2 rounded-full bg-slate-100"><div class="h-2 w-1/2 rounded-full bg-indigo-600"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUDIENCE -->
+    <section class="bg-slate-950 text-white">
+      <div class="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="rounded-3xl border border-white/10 bg-white/5 p-8">
+            <div class="text-sm font-black uppercase tracking-[.2em] text-cyan-300">Untuk SD Kelas 5–6</div>
+            <h3 class="mt-3 text-2xl font-black">Mulai dari logic dan rasa ingin tahu.</h3>
+            <p class="mt-4 leading-7 text-slate-300">Anak dikenalkan dengan algoritma, web dasar, visual logic, coding challenge, dan project yang menyenangkan.</p>
+          </div>
+          <div class="rounded-3xl border border-white/10 bg-white/5 p-8">
+            <div class="text-sm font-black uppercase tracking-[.2em] text-cyan-300">Untuk SMP Kelas 7–9</div>
+            <h3 class="mt-3 text-2xl font-black">Naik level ke real tech.</h3>
+            <p class="mt-4 leading-7 text-slate-300">JavaScript, web app, debugging, networking, troubleshooting, dan final project dengan presentasi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="mx-auto max-w-4xl px-5 py-20 lg:px-8">
+      <div class="text-center">
+        <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-600">FAQ</div>
+        <h2 class="mt-3 text-4xl font-black tracking-tight">Pertanyaan yang sering muncul</h2>
+      </div>
+
+      <div class="mt-10 space-y-3">
+        <details class="group rounded-2xl border border-slate-200 bg-white p-6">
+          <summary class="cursor-pointer list-none pr-8 font-black">Apakah anak harus sudah bisa coding?</summary>
+          <p class="mt-4 leading-7 text-slate-600">Tidak. AL-Code dimulai dari computational thinking dan assessment awal agar materi sesuai kemampuan anak.</p>
+        </details>
+        <details class="group rounded-2xl border border-slate-200 bg-white p-6">
+          <summary class="cursor-pointer list-none pr-8 font-black">Kenapa satu group hanya 5 anak?</summary>
+          <p class="mt-4 leading-7 text-slate-600">Karena model belajar menggunakan project dan teamwork. Trainer perlu memiliki waktu untuk mengamati proses setiap siswa.</p>
+        </details>
+        <details class="group rounded-2xl border border-slate-200 bg-white p-6">
+          <summary class="cursor-pointer list-none pr-8 font-black">Kalau hanya ada 5 komputer bagaimana?</summary>
+          <p class="mt-4 leading-7 text-slate-600">Satu group terdiri dari maksimal 5 siswa. Setiap siswa memiliki role yang bergantian: Driver, Navigator, Debugger, Tester, dan Presenter/Documenter.</p>
+        </details>
+        <details class="group rounded-2xl border border-slate-200 bg-white p-6">
+          <summary class="cursor-pointer list-none pr-8 font-black">Apa yang dibawa pulang anak?</summary>
+          <p class="mt-4 leading-7 text-slate-600">Selain skill, setiap bulan anak menyelesaikan project dan berlatih mempresentasikan cara kerja serta proses pembuatannya.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="daftar" class="px-5 pb-20 lg:px-8">
+      <div class="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-indigo-600 p-8 text-white shadow-soft sm:p-12">
+        <div class="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <div class="text-sm font-black uppercase tracking-[.2em] text-indigo-200">Start the journey</div>
+            <h2 class="mt-3 max-w-3xl text-4xl font-black tracking-tight sm:text-5xl">Saatnya anak tidak hanya memakai teknologi. Mulai belajar membuatnya.</h2>
+            <p class="mt-5 max-w-2xl text-lg leading-8 text-indigo-100">Mulai dengan Trial Class, kenali cara belajar AL-Code, lalu lihat project pertama mereka berkembang.</p>
+          </div>
+          <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
+            <a href="https://wa.me/6281234567890?text=Halo%20AL-Code%2C%20saya%20ingin%20info%20Trial%20Class." class="rounded-2xl bg-white px-7 py-4 text-center text-sm font-black text-slate-950 transition hover:bg-slate-100">Chat WhatsApp →</a>
+            <a href="#home" class="rounded-2xl border border-white/30 px-7 py-4 text-center text-sm font-black text-white transition hover:bg-white/10">Kembali ke atas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+      <div>
+        <div class="font-black text-slate-950">AL-Code</div>
+        <div class="mt-1">Algorithm & Logic Coding Lab</div>
+      </div>
+      <div>Think. Build. Debug. Present.</div>
+      <div>© <span id="year"></span> AL-Code</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
