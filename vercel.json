@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/game-tangkap-bug",
+      "destination": "/game-tangkap-bug.html"
+    }
+  ]
+}
