@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#09090b">
+<title>AL-Code — Code Catcher</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#09090b;touch-action:none;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+canvas{display:block;width:100%;height:100%}
+button{-webkit-tap-highlight-color:transparent}
+.panel{background:rgba(9,9,11,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1)}
+.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}
+.card{width:min(430px,100%);padding:32px;border-radius:28px;text-align:center;box-shadow:0 25px 80px rgba(0,0,0,.5)}
+.primary{width:100%;padding:15px;border:0;border-radius:16px;background:#22d3ee;color:#09090b;font-weight:900;font-size:16px;cursor:pointer}
+.smallbtn{width:44px;height:44px;border-radius:14px;color:#fff;border:1px solid rgba(255,255,255,.1);background:rgba(9,9,11,.72);font-size:19px;cursor:pointer}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div style="position:absolute;left:12px;right:12px;top:12px;z-index:10;display:flex;justify-content:space-between;pointer-events:none">
+  <div class="panel" style="border-radius:16px;padding:9px 14px">
+    <div style="font-size:10px;letter-spacing:3px;color:#67e8f9;font-weight:800">AL-CODE</div>
+    <div style="font-size:22px;color:white;font-weight:900">Score <span id="score">0</span></div>
+  </div>
+  <div class="panel" style="border-radius:16px;padding:9px 14px;text-align:right">
+    <div style="font-size:10px;letter-spacing:2px;color:#a1a1aa;font-weight:800">LEVEL</div>
+    <div id="level" style="font-size:22px;color:white;font-weight:900">1</div>
+  </div>
+</div>
+
+<div style="position:absolute;right:12px;top:110px;z-index:11;display:flex;flex-direction:column;gap:8px">
+  <button id="sound" class="smallbtn">🔊</button>
+  <button id="fullscreen" class="smallbtn">⛶</button>
+</div>
+
+<div id="start" class="overlay">
+  <div class="card panel">
+    <div style="margin:auto;width:64px;height:64px;border-radius:18px;background:#22d3ee;display:grid;place-items:center;font-weight:1000;font-size:22px;color:#09090b">&lt;/&gt;</div>
+    <div style="margin-top:18px;color:#67e8f9;font-size:11px;font-weight:900;letter-spacing:3px">AL-CODE MINI GAME</div>
+    <h1 style="margin:6px 0 0;color:#fff;font-size:44px;line-height:1;font-weight:1000">Code Catcher</h1>
+    <p style="color:#d4d4d8;line-height:1.6;margin:18px 0">Tangkap <b style="color:#86efac">bug hijau</b>, hindari <b style="color:#fca5a5">error merah</b>, dan kumpulkan skor.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left">
+      <div class="panel" style="border-radius:16px;padding:13px;color:#fff">🟢<br><b>+10 poin</b></div>
+      <div class="panel" style="border-radius:16px;padding:13px;color:#fff">🔴<br><b>-15 poin</b></div>
+    </div>
+    <button id="startBtn" class="primary" style="margin-top:18px">MULAI GAME →</button>
+    <div style="color:#71717a;font-size:12px;margin-top:10px">Bisa dimainkan dengan mouse atau touch.</div>
+  </div>
+</div>
+
+<div id="over" class="overlay hidden">
+  <div class="card panel">
+    <div style="font-size:48px">💥</div>
+    <div style="margin-top:10px;color:#fca5a5;font-size:11px;font-weight:900;letter-spacing:3px">GAME OVER</div>
+    <h2 style="margin:6px 0 0;color:#fff;font-size:38px">Debug Selesai!</h2>
+    <div class="panel" style="border-radius:18px;padding:18px;margin-top:18px">
+      <div style="color:#a1a1aa;font-size:13px">Score kamu</div>
+      <div id="final" style="color:#67e8f9;font-size:52px;font-weight:1000">0</div>
+    </div>
+    <button id="restart" class="primary" style="margin-top:18px">MAIN LAGI →</button>
+  </div>
+</div>
+
+<div id="hint" class="panel" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:10;color:#d4d4d8;border-radius:999px;padding:8px 14px;font-size:12px;white-space:nowrap">Tap objek untuk menangkapnya</div>
+
+<script>
+const c=document.getElementById('game'),x=c.getContext('2d');
+const scoreEl=document.getElementById('score'),levelEl=document.getElementById('level');
+let W,H,dpr,score=0,level=1,lives=3,running=false,items=[],parts=[],last=0,spawn=0,sound=true,audio;
+
+function resize(){
+ dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+ c.width=W*dpr;c.height=H*dpr;c.style.width=W+'px';c.style.height=H+'px';
+ x.setTransform(dpr,0,0,dpr,0,0);
+}
+addEventListener('resize',resize);resize();
+
+function beep(f=600,d=.06,type='sine'){
+ if(!sound)return;
+ try{
+  audio ||= new (AudioContext||webkitAudioContext)();
+  if(audio.state==='suspended')audio.resume();
+  const o=audio.createOscillator(),g=audio.createGain();
+  o.type=type;o.frequency.value=f;g.gain.value=.035;
+  g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d);
+  o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+d);
+ }catch(e){}
+}
+function hud(){scoreEl.textContent=score;levelEl.textContent=level}
+function reset(){score=0;level=1;lives=3;items=[];parts=[];spawn=0;hud()}
+function startGame(){
+ reset();running=true;
+ document.getElementById('start').classList.add('hidden');
+ document.getElementById('over').classList.add('hidden');
+ document.getElementById('hint').classList.remove('hidden');
+ last=performance.now();beep(700,.08);requestAnimationFrame(loop);
+}
+function gameOver(){
+ running=false;document.getElementById('final').textContent=score;
+ document.getElementById('over').classList.remove('hidden');
+ document.getElementById('hint').classList.add('hidden');beep(120,.2,'sawtooth');
+}
+function makeItem(){
+ const r=Math.max(18,Math.min(30,18+level));
+ items.push({
+  x:35+Math.random()*Math.max(1,W-70),y:95+Math.random()*Math.max(1,H-165),
+  r,bad:Math.random()<Math.min(.28+level*.025,.55),age:0,max:Math.max(800,1750-level*45),p:Math.random()*7
+ });
+}
+function particles(o){
+ for(let i=0;i<14;i++){let a=Math.random()*Math.PI*2,s=50+Math.random()*120;
+  parts.push({x:o.x,y:o.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,age:0,max:400+Math.random()*350,bad:o.bad});
+ }
+}
+function background(t){
+ let g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#09090b');g.addColorStop(.5,'#111827');g.addColorStop(1,'#09090b');
+ x.fillStyle=g;x.fillRect(0,0,W,H);
+ x.globalAlpha=.13;x.strokeStyle='#38bdf8';x.lineWidth=1;
+ const grid=42,off=(t*.015)%grid;
+ for(let xx=-grid+off;xx<W+grid;xx+=grid){x.beginPath();x.moveTo(xx,0);x.lineTo(xx,H);x.stroke()}
+ for(let yy=-grid+off;yy<H+grid;yy+=grid){x.beginPath();x.moveTo(0,yy);x.lineTo(W,yy);x.stroke()}
+ x.globalAlpha=1;
+}
+function drawItem(o){
+ const r=o.r*(1+Math.sin(o.p)*.08);
+ x.save();x.shadowBlur=22;x.shadowColor=o.bad?'#ef4444':'#22c55e';x.fillStyle=o.bad?'#ef4444':'#22c55e';
+ x.beginPath();x.arc(o.x,o.y,r,0,Math.PI*2);x.fill();x.shadowBlur=0;x.fillStyle='#09090b';
+ x.font='900 '+Math.max(14,r*.72)+'px monospace';x.textAlign='center';x.textBaseline='middle';x.fillText(o.bad?'!':'</>',o.x,o.y);
+ x.strokeStyle='rgba(255,255,255,.75)';x.lineWidth=2;x.beginPath();x.arc(o.x,o.y,r+5,-Math.PI/2,-Math.PI/2+Math.PI*2*(1-o.age/o.max));x.stroke();x.restore();
+}
+function update(dt){
+ spawn+=dt;let interval=Math.max(270,850-level*55);
+ if(spawn>=interval){spawn=0;makeItem();if(level>=5&&Math.random()<.2)makeItem()}
+ for(const o of items){o.age+=dt;o.p+=dt*.006}
+ for(let i=items.length-1;i>=0;i--)if(items[i].age>=items[i].max){
+  const o=items[i];items.splice(i,1);if(!o.bad){lives--;beep(180,.07);if(lives<=0)return gameOver()}
+ }
+ const nl=Math.floor(score/100)+1;if(nl!==level){level=nl;hud();beep(900,.08)}
+ for(const p of parts){p.age+=dt;p.x+=p.vx*dt/1000;p.y+=p.vy*dt/1000;p.vx*=.97;p.vy*=.97}
+ parts=parts.filter(p=>p.age<p.max);
+}
+function draw(t){
+ background(t);
+ for(const p of parts){x.globalAlpha=Math.max(0,1-p.age/p.max);x.fillStyle=p.bad?'#ef4444':'#22c55e';x.beginPath();x.arc(p.x,p.y,3,0,7);x.fill()}x.globalAlpha=1;
+ for(const o of items)drawItem(o);
+ x.fillStyle='rgba(9,9,11,.7)';x.beginPath();x.roundRect(14,H-55,118,36,18);x.fill();
+ x.fillStyle='#fff';x.font='700 13px system-ui';x.textAlign='left';x.textBaseline='middle';
+ x.fillText('LIVES  '+'♥'.repeat(lives)+'♡'.repeat(3-lives),27,H-37);
+}
+function loop(t){if(!running)return;let dt=Math.min(40,t-last||16);last=t;update(dt);draw(t);if(running)requestAnimationFrame(loop)}
+function hit(px,py){
+ if(!running)return;
+ for(let i=items.length-1;i>=0;i--){const o=items[i];
+  if(Math.hypot(px-o.x,py-o.y)<=o.r+10){
+   items.splice(i,1);particles(o);
+   if(o.bad){score=Math.max(0,score-15);beep(160,.12,'square')}
+   else{score+=10;beep(720+level*30,.06)}
+   hud();return;
+  }
+ }
+}
+c.addEventListener('pointerdown',e=>{e.preventDefault();hit(e.clientX,e.clientY)},{passive:false});
+document.getElementById('startBtn').onclick=startGame;
+document.getElementById('restart').onclick=startGame;
+document.getElementById('sound').onclick=()=>{sound=!sound;document.getElementById('sound').textContent=sound?'🔊':'🔇';if(sound)beep()};
+document.getElementById('fullscreen').onclick=async()=>{
+ try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){}
+};
+document.addEventListener('fullscreenchange',()=>document.getElementById('fullscreen').textContent=document.fullscreenElement?'×':'⛶');
+document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
+</script>
+</body>
+</html>
